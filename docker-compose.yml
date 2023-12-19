@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  java_app:
+    container_name: spring_app
+    image: xacakala/spring:v1.0
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    links:
+      - db:db
+    environment:
+      - DATABASE_URL=jdbc:oracle:thin:@//db:1521/FREE
+      - DATABASE_USERNAME=SYSTEM
+      - DATABASE_PASSWORD=1234
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: xacalaka/basedatos:v1.0
+    restart: always
+    ports:
+      - 1521:1521
+    environment:
+      - ORACLE_PWD=1234
+      - ORACLE_SID=FREE
+
